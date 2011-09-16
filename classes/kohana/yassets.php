@@ -12,8 +12,7 @@ class Kohana_Yassets extends Assets
 	{
 		$info = pathinfo($url);
 
-		if (! preg_match('/(^((ht|f)tps?:)?\/\/)|(\.min\.(js|css)$)/i', $url)
-		AND class_exists('Yaminify'))
+		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(Url::base(), '/').')|(\.min\.(js|css)$)/iD', $url) AND class_exists('Yaminify'))
 		{
 			return Yaminify::stamp($url);
 		}
