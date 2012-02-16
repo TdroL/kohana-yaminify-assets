@@ -31,12 +31,16 @@ class Kohana_Yassets extends Assets
 	{
 		$info = pathinfo($url);
 
-		if (($path = Arr::get($this->_path, $info['extension'])) !== NULL)
+		// path prepending - skip external files
+		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(Url::base(), '/').')/iD', $url)
+		    AND
+		    ($path = Arr::get($this->_path, $info['extension'])) !== NULL)
 		{
 			$path = rtrim($path, '/').'/';
 			$url = $path.$url;
 		}
 
+		// stamp local css and js files
 		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(Url::base(), '/').')|(\.min\.(js|css)$)/iD', $url) AND class_exists('Yaminify'))
 		{
 			return Yaminify::stamp($url);
