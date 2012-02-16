@@ -3,6 +3,25 @@
 class Kohana_Yassets extends Assets
 {
 
+	protected $_path;
+
+	public function __construct()
+	{
+		parent::__construct();
+
+		$config = Kohana::$config->load('yaminify');
+
+		if (($js = Arr::get($config->js, 'dir', NULL)) !== NULL)
+		{
+			$this->_path['js'] = $js;
+		}
+
+		if (($css = Arr::get($config->css, 'dir', NULL)) !== NULL)
+		{
+			$this->_path['css'] = $css;
+		}
+	}
+
 	public static function factory()
 	{
 		return new Yassets;
@@ -11,6 +30,12 @@ class Kohana_Yassets extends Assets
 	protected function _parse_url($url)
 	{
 		$info = pathinfo($url);
+
+		if (($path = Arr::get($this->_path, $info['extension'])) !== NULL)
+		{
+			$path = rtrim($path, '/').'/';
+			$url = $path.$url;
+		}
 
 		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(Url::base(), '/').')|(\.min\.(js|css)$)/iD', $url) AND class_exists('Yaminify'))
 		{
