@@ -32,7 +32,7 @@ class Kohana_Yassets extends Assets
 		$info = pathinfo($url);
 
 		// path prepending - skip external files
-		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(Url::base(), '/').')/iD', $url)
+		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(URL::base(), '/').')/iD', $url)
 		    AND
 		    ($path = Arr::get($this->_path, $info['extension'])) !== NULL)
 		{
@@ -41,7 +41,7 @@ class Kohana_Yassets extends Assets
 		}
 
 		// stamp local css and js files
-		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(Url::base(), '/').')|(\.min\.(js|css)$)/iD', $url) AND class_exists('Yaminify'))
+		if ( ! preg_match('/(^((ht|f)tps?:)?\/\/)|(^'.preg_quote(URL::base(), '/').')|(\.min\.(js|css)$)/iD', $url) AND class_exists('Yaminify'))
 		{
 			return Yaminify::stamp($url);
 		}
